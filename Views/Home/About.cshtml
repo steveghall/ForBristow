@@ -1,0 +1,132 @@
+﻿@model SupplyStuff.Models.Order
+
+@{
+    ViewBag.Title =  "Order for: " + ViewBag.Name + "\\r\\n" + "Hub address: " + ViewBag.Reference + "\\r\\n" + "Order no: " + Model.OrderId + "\\r\\n" + "Instructions: "+ Model.Instructions;
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Order details</h4>
+    <hr />
+    <div class="col-md-5">
+        <dl class="dl-horizontal">
+            <dt>
+                Name
+            </dt>
+
+            <dd>
+                @ViewBag.Name
+            </dd>
+            <dt>
+                Hub address
+            </dt>
+
+            <dd>
+                @ViewBag.Reference
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.OrderDate)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.OrderDate)
+            </dd>
+            <dt>Status</dt>
+            <dd>
+                @(Model.Complete ? "Order complete" : "Order outstanding" )
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Instructions)
+            </dt>
+            
+            <dd>
+                @Html.DisplayFor(model => model.Instructions)
+            </dd>
+        </dl>
+    </div>
+</div>
+
+<div class="col-md-7">
+    @if (Model.OrderDetails != null)
+    {
+        <h4>Items requested</h4>
+        <table class="table" id="itemtable">
+            <thead>
+                <tr>
+                    <th>
+                        Description
+                    </th>
+                    <th>
+                        Quantity
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.OrderDetails)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Item.Description)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Quantity)
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+</div>
+
+<p>
+    @Html.ActionLink("Return", "Index", null, new { @class = "btn btn-default" })
+</p>
+
+@section Scripts {
+    @Scripts.Render("~/Scripts/datatables.min.js")
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            $('#itemtable').DataTable({
+                pageLength: 10,
+                "lengthChange": false,
+                language: {
+                    search: "_INPUT_",
+                    searchPlaceholder: "Search..."
+                },
+                dom: '<"html5buttons">lBTfgtip',
+                buttons: [
+
+                    {
+                        extend: 'pdf', title: '@ViewBag.Title'
+                    }
+                ]
+
+            });
+
+        });
+
+    </script>
+}
+
+
+@*@section Scripts {
+        @Scripts.Render("~/Scripts/datatables.min.js")
+        <script type="text/javascript">
+
+            $(document).ready(function() {
+                $('#itemtable').DataTable(
+                    {
+                        buttons: [
+                            { extend: 'pdf', title: 'ymProve Events List' }
+                        ],
+                        "lengthChange": false,
+                        "info": false,
+                        "searching": false,
+                        "paging": false
+                    });
+            })
+        </script>
+    }*@

@@ -1,0 +1,68 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <style>
+        #footer {
+            position: fixed;
+            left: 0px;
+            bottom: 0px;
+            height: 30px;
+            width: 100%;
+            padding-left: 20px
+        }
+    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - Supplies</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/modernizr")
+
+    <link href="~/Content/Datatables/css/jquery.dataTables.css" rel="stylesheet" />
+    <script src="~/Scripts/moment.js"></script>
+    <link href="~/Content/bootstrap-datetimepicker.css" rel="stylesheet" />
+
+</head>
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                @Html.ActionLink("Supplies", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
+                    <li>@Html.ActionLink("Supply request", "Shop", "Orders")</li>
+                    @if (User.IsInRole("Admin") | User.IsInRole("Manager"))
+                    {
+                        <li>@Html.ActionLink("Manage requests", "Index", "Orders")</li>
+                        <li>@Html.ActionLink("Goods in", "Index", "Items")</li>
+                    }
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <li>@Html.ActionLink("Admin", "Index", "UserAdmin")</li>
+                    }
+                </ul>
+                @Html.Partial("_LoginPartial")
+            </div>
+        </div>
+    </div>
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+    <div id="footer">
+            <p>&copy; @DateTime.Now.Year - Supplies</p>
+        </div>
+    </div>
+
+    @Scripts.Render("~/bundles/bootstrap")
+    <script src="~/Scripts/jquery.dataTables.js"></script>
+    <script src="~/Scripts/bootstrap-datetimepicker.js"></script>
+    @RenderSection("scripts", required: false)
+</body>
+</html>

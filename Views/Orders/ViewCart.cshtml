@@ -1,0 +1,29 @@
+﻿
+@model List<SupplyStuff.ViewModels.CartViewModel>
+
+<table class="table">
+    <tr>
+        <th>
+            Description
+        </th>
+
+        <th>
+            Quantity
+        </th>
+
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Quantity)
+            </td>
+        </tr>
+    }
+
+</table>
+@Html.ActionLink("Return to shop", "Shop")

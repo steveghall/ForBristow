@@ -1,0 +1,99 @@
+﻿@model IEnumerable<SupplyStuff.Models.Item>
+
+@{
+    ViewBag.Title = "Index";
+}
+@*@{
+        Layout = null;
+    }
+        <head>
+            <link href="/Content/bootstrap.css" rel="stylesheet" />
+            <link href="/Content/site.css" rel="stylesheet"/>
+            <link href="/Content/Datatables/css/jquery.dataTables.css" rel="stylesheet" />
+        </head>*@
+<h2>Supplies in stock</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create" ,null, new { @class = "btn btn-primary" })
+</p>
+
+<table class="table" id="itemtable">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Supplier)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Received)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Quantity)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Location)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Expiry)
+            </th>
+            @*<th>
+                @Html.DisplayNameFor(model => model.Ref1)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Ref2)
+            </th>*@
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Supplier)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Received)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Quantity)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Location)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Expiry)
+                </td>
+                @*<td>
+                    @Html.DisplayFor(modelItem => item.Ref1)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Ref2)
+                </td>*@
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.ItemId }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.ItemId }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.ItemId })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@*<script src="/Scripts/jquery-3.4.1.js"></script>
+    <script src="/Scripts/jquery.dataTables.js"></script>*@
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $('#itemtable').DataTable(
+            {
+                "lengthChange": false,
+                "info": false
+            });
+    })
+</script>

@@ -1,0 +1,90 @@
+﻿@using SupplyStuff.Controllers
+@model IEnumerable<SupplyStuff.Models.Order>
+
+@{
+    ViewBag.Title = "Home Page";
+}
+
+<div class="jumbotron">
+    <h1>Supplies</h1>
+    <p class="lead">@ViewBag.Name</p>
+
+</div>
+
+<div class="row">
+    <div class="col-md-4">
+        <div class="row">
+            <h2>Request supplies</h2>
+            <p>
+                Create a supply request for processing.
+            </p>
+            <p>@Html.ActionLink("Make request", "Shop", "Orders")</p>
+        </div>
+
+        @if (User.IsInRole("Admin") | User.IsInRole("Manager"))
+        {
+            <div class="row">
+                <h2>Manage requests</h2>
+                <p>List of supply requests. View details of requests and lists of items in each request.</p>
+                <p>@Html.ActionLink("Manage requests", "Index", "Orders")</p>
+            </div>
+            <div class="row">
+                <h2>Manage items</h2>
+                <p>Control stock, book in goods.</p>
+                <p>@Html.ActionLink("Manage supplies", "Index", "Items")</p>
+            </div>
+        }
+    </div>
+
+    <div class="col-md-8">
+        <h2>Previous orders</h2>
+        <table class="table" id="itemtable">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.OrderDate)
+                    </th>
+                    <th>
+                        Items
+                    </th>
+                    <th>
+                        Status
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.OrderDate)
+                        </td>
+                        <td>
+                            @item.OrderDetails.Count
+                        </td>
+                        <td>
+                            @(item.Complete ? "Complete" : "Active")
+                        </td>
+                        <td>
+                            @Html.ActionLink("Details", "About", "Home", new { id = item.OrderId }, null)
+                        </td>
+                    </tr>
+
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $('#itemtable').DataTable(
+            {
+                "lengthChange": false,
+                "info": false,
+                "searching": false
+            });
+    })
+</script>
